@@ -6,34 +6,40 @@ public class PalindromeCheckerApp {
 
         Scanner sc = new Scanner(System.in);
 
-        System.out.print("Enter a word: ");
+        System.out.print("Enter a sentence: ");
         String input = sc.nextLine();
 
-        boolean isPalindrome = checkRecursive(input, 0, input.length() - 1);
+        // STEP 1: Normalize
+        String normalized = input.replaceAll("\\s+", "").toLowerCase();
+
+        // STEP 2: Check palindrome
+        boolean isPalindrome = checkPalindrome(normalized);
 
         if (isPalindrome) {
-            System.out.println("Palindrome (Recursive Method)");
+            System.out.println("Palindrome (Case-Insensitive & Space-Ignored)");
         } else {
-            System.out.println("Not Palindrome (Recursive Method)");
+            System.out.println("Not Palindrome (Case-Insensitive & Space-Ignored)");
         }
 
         sc.close();
     }
 
-    // UC9: Recursive palindrome check
-    public static boolean checkRecursive(String s, int left, int right) {
+    // UC10 logic
+    public static boolean checkPalindrome(String s) {
 
-        // Base condition: crossed or met in middle
-        if (left >= right) {
-            return true;
+        int left = 0;
+        int right = s.length() - 1;
+
+        while (left < right) {
+
+            if (s.charAt(left) != s.charAt(right)) {
+                return false;
+            }
+
+            left++;
+            right--;
         }
 
-        // If mismatch
-        if (s.charAt(left) != s.charAt(right)) {
-            return false;
-        }
-
-        // Recursive call
-        return checkRecursive(s, left + 1, right - 1);
+        return true;
     }
 }
