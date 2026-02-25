@@ -1,17 +1,32 @@
+
+import java.util.Scanner;
+
 public class PalindromeCheckerApp {
+
     public static void main(String[] args) {
 
-        String text = "madam";   // Hardcoded input
-        String reversed = "";
+        System.out.println("Welcome to Palindrome Checker App - Usecase 3");
 
-        for(int i = text.length() - 1; i >= 0; i--) {
-            reversed += text.charAt(i);
+        Scanner sc = new Scanner(System.in);
+
+        System.out.print("Enter a number: ");
+        int num = sc.nextInt();
+
+        int original = num;
+        int reverse = 0;
+
+        while (num != 0) {
+            int digit = num % 10;
+            reverse = reverse * 10 + digit;
+            num = num / 10;
         }
 
-        if(text.equals(reversed)) {
-            System.out.println(text + " is a Palindrome");
+        if (original == reverse) {
+            System.out.println("Palindrome Number");
         } else {
-            System.out.println(text + " is Not a Palindrome");
+            System.out.println("Not Palindrome Number");
         }
+
+        sc.close();
     }
 }
