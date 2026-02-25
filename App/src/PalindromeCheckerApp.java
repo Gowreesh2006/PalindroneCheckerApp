@@ -1,24 +1,60 @@
 import java.util.*;
 
-class PalindromeService {
+// Strategy Interface
+interface PalindromeStrategy {
+    boolean checkPalindrome(String input);
+}
 
-    // Encapsulated palindrome logic (UC11)
+// Strategy 1: Stack-based
+class StackStrategy implements PalindromeStrategy {
     public boolean checkPalindrome(String input) {
 
-        // Clean up input
         String cleaned = input.replaceAll("\\s+", "").toLowerCase();
+        Stack<Character> stack = new Stack<>();
 
-        int left = 0;
-        int right = cleaned.length() - 1;
+        for (char c : cleaned.toCharArray()) {
+            stack.push(c);
+        }
 
-        while (left < right) {
-            if (cleaned.charAt(left) != cleaned.charAt(right)) {
+        for (char c : cleaned.toCharArray()) {
+            if (c != stack.pop()) {
                 return false;
             }
-            left++;
-            right--;
         }
         return true;
+    }
+}
+
+// Strategy 2: Deque-based
+class DequeStrategy implements PalindromeStrategy {
+    public boolean checkPalindrome(String input) {
+
+        String cleaned = input.replaceAll("\\s+", "").toLowerCase();
+        Deque<Character> deque = new LinkedList<>();
+
+        for (char c : cleaned.toCharArray()) {
+            deque.addLast(c);
+        }
+
+        while (deque.size() > 1) {
+            if (deque.removeFirst() != deque.removeLast()) {
+                return false;
+            }
+        }
+        return true;
+    }
+}
+
+// Context Class
+class PalindromeContext {
+    private PalindromeStrategy strategy;
+
+    public void setStrategy(PalindromeStrategy strategy) {
+        this.strategy = strategy;
+    }
+
+    public boolean execute(String input) {
+        return strategy.checkPalindrome(input);
     }
 }
 
@@ -28,18 +64,31 @@ public class PalindromeCheckerApp {
 
         Scanner sc = new Scanner(System.in);
 
-        System.out.print("Enter any word or sentence: ");
+        System.out.println("UC12: Strategy Pattern Palindrome Checker");
+        System.out.println("Choose Strategy:");
+        System.out.println("1. Stack Strategy");
+        System.out.println("2. Deque Strategy");
+        System.out.print("Enter choice: ");
+        int choice = sc.nextInt();
+        sc.nextLine();
+
+        System.out.print("Enter text: ");
         String input = sc.nextLine();
 
-        // Create service object (OOPS concept)
-        PalindromeService service = new PalindromeService();
+        PalindromeContext context = new PalindromeContext();
 
-        boolean result = service.checkPalindrome(input);
+        if (choice == 1) {
+            context.setStrategy(new StackStrategy());
+        } else {
+            context.setStrategy(new DequeStrategy());
+        }
+
+        boolean result = context.execute(input);
 
         if (result) {
-            System.out.println("Palindrome (UC11 - OOPS Service Method)");
+            System.out.println("Palindrome (UC12 Strategy Pattern)");
         } else {
-            System.out.println("Not Palindrome (UC11 - OOPS Service Method)");
+            System.out.println("Not Palindrome (UC12 Strategy Pattern)");
         }
 
         sc.close();
