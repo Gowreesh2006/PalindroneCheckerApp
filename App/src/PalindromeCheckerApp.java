@@ -1,30 +1,33 @@
-
 import java.util.Scanner;
 
-public class PalindromeCheckerApp {
+public class
+PalindromeCheckerApp {
 
     public static void main(String[] args) {
 
-        System.out.println("Welcome to Palindrome Checker App - Usecase 3");
-
         Scanner sc = new Scanner(System.in);
 
-        System.out.print("Enter a number: ");
-        int num = sc.nextInt();
+        System.out.print("Enter a word: ");
+        String input = sc.nextLine();
 
-        int original = num;
-        int reverse = 0;
+        char[] arr = input.toCharArray();
+        int start = 0;
+        int end = arr.length - 1;
+        boolean isPalindrome = true;
 
-        while (num != 0) {
-            int digit = num % 10;
-            reverse = reverse * 10 + digit;
-            num = num / 10;
+        while (start < end) {
+            if (arr[start] != arr[end]) {
+                isPalindrome = false;
+                break;
+            }
+            start++;
+            end--;
         }
 
-        if (original == reverse) {
-            System.out.println("Palindrome Number");
+        if (isPalindrome) {
+            System.out.println("Palindrome (Character Array Method)");
         } else {
-            System.out.println("Not Palindrome Number");
+            System.out.println("Not Palindrome (Character Array Method)");
         }
 
         sc.close();
