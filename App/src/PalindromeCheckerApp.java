@@ -1,45 +1,47 @@
 import java.util.*;
 
+class PalindromeService {
+
+    // Encapsulated palindrome logic (UC11)
+    public boolean checkPalindrome(String input) {
+
+        // Clean up input
+        String cleaned = input.replaceAll("\\s+", "").toLowerCase();
+
+        int left = 0;
+        int right = cleaned.length() - 1;
+
+        while (left < right) {
+            if (cleaned.charAt(left) != cleaned.charAt(right)) {
+                return false;
+            }
+            left++;
+            right--;
+        }
+        return true;
+    }
+}
+
 public class PalindromeCheckerApp {
 
     public static void main(String[] args) {
 
         Scanner sc = new Scanner(System.in);
 
-        System.out.print("Enter a sentence: ");
+        System.out.print("Enter any word or sentence: ");
         String input = sc.nextLine();
 
-        // STEP 1: Normalize
-        String normalized = input.replaceAll("\\s+", "").toLowerCase();
+        // Create service object (OOPS concept)
+        PalindromeService service = new PalindromeService();
 
-        // STEP 2: Check palindrome
-        boolean isPalindrome = checkPalindrome(normalized);
+        boolean result = service.checkPalindrome(input);
 
-        if (isPalindrome) {
-            System.out.println("Palindrome (Case-Insensitive & Space-Ignored)");
+        if (result) {
+            System.out.println("Palindrome (UC11 - OOPS Service Method)");
         } else {
-            System.out.println("Not Palindrome (Case-Insensitive & Space-Ignored)");
+            System.out.println("Not Palindrome (UC11 - OOPS Service Method)");
         }
 
         sc.close();
-    }
-
-    // UC10 logic
-    public static boolean checkPalindrome(String s) {
-
-        int left = 0;
-        int right = s.length() - 1;
-
-        while (left < right) {
-
-            if (s.charAt(left) != s.charAt(right)) {
-                return false;
-            }
-
-            left++;
-            right--;
-        }
-
-        return true;
     }
 }
